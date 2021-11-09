@@ -6,7 +6,7 @@ class Test extends Component {
         super()
         this.state=  {"val":null}
         axios
-            .get("/api")
+            .get("https://esw-team4.herokuapp.com/api")
             .then((res) => {
                 console.log(res.data)
                 this.setState({"val":res.data})

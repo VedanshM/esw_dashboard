@@ -119,7 +119,15 @@ class Main extends Component {
                         </Button>
                     </form>
                 </div>
+                <iframe
+                    src="https://player.twitch.tv/?channel=esw_project&parent=esw-team4.herokuapp.com"
+                    height="720"
+                    width="1280"
+                    allowfullscreen="true"
+                >
+                </iframe>
             </div>
+
         );
     }
 }

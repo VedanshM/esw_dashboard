@@ -48,7 +48,6 @@ router.get("/getData", (req, res) => {
         // elements in arr: time gap, current angle, 
         //                  target angle, actual time
         arr.sort((a, b) => a[3] > b[3]);
-        console.log(arr)
         let cur_theta = arr[arr.length - 1][2];
         arr = arr.filter(function (e) {
             return e[2] == cur_theta;
@@ -72,13 +71,13 @@ router.post("/sendData", (req, res) => {
         })
     }
 
-    console.log(req_opt)
 
     request(req_opt, (error, response, body) => {
         if (error) {
             console.log(error)
             throw new Error(error);
         }
+        res.status(201).send("ok")
     });
 
 });

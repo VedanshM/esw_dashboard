@@ -35,7 +35,7 @@ class Main extends Component {
             label: [],
             data1: [],
             data2: [],
-            graphstate: {}
+            graphstate: [['time', 'Current Angle', 'Target angle'], [1, 1, 1]]
         };
         this.handleAngle = this.handleAngle.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -54,12 +54,14 @@ class Main extends Component {
         this.interval = setInterval(() => {
             axios.get('/api/getData')
                 .then(response => {
-                    console.log("here are the users : ")
-                    console.log(response.data)
                     data = response.data
+                    // data = [[1, 3, 2], [2, 3, 3]]
+                    data = data.map(el => el.map(Number))
                     data.unshift(['time', 'Current Angle', 'Target angle'])
+                    // console.log(data)
+                    this.setState({ graphstate: data })
                 })
-        }, 2000);
+        }, 5000);
     }
 
     componentWillUnmount() {
@@ -76,7 +78,6 @@ class Main extends Component {
             angle: this.state.angle
         }
         let temp = this.state.angle.length > 0;
-        console.log(temp)
         if (temp) {
             axios.post('/api/sendData', newAngle)
                 .then(res => {
@@ -90,6 +91,7 @@ class Main extends Component {
     }
 
     render() {
+        console.log(this.state.graphstate)
         return (
             <div>
                 <div>
@@ -97,7 +99,7 @@ class Main extends Component {
                         width={'100%'}
                         height={'500px'}
                         chartType="LineChart"
-                        data={data}
+                        data={this.state.graphstate}
                         options={options}
                     />
                 </div>

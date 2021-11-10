@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from 'axios';
 import { Chart } from "react-google-charts";
+import "./main.css"
 
 const options = {
     hAxis: {
@@ -42,25 +43,14 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        // if (sessionStorage.getItem('email') == null) {
-        //     this.setState({
-        //         gotologin: true
-        //     })
-        // } else {
-        //     this.setState({
-        //         email: sessionStorage.getItem('email'),
-        //     });
-        // }
         this.interval = setInterval(() => {
+            document.title = "ESW-Project"
             axios.get('/api/getData')
                 .then(response => {
                     data = response.data
                     console.log(data)
-                    // data = data.slice(Math.max(data.length - 115, 1))
-                    // data = [[1, 3, 2], [2, 3, 3]]
                     data = data.map(el => el.map(Number))
                     data.unshift(['time', 'Current Angle', 'Target angle'])
-                    // console.log(data)
                     this.setState({ graphstate: data })
                 })
         }, 1000);
@@ -85,13 +75,13 @@ class Main extends Component {
                 .then(res => {
                     console.log("Angle Sent");
                     console.log(res);
+                    this.setState({angle:''})
                 })
                 .catch(err => {
                     console.log("Failed to Send Angle, Check connection");
                 });
         }
     }
-
     render() {
         console.log(this.state.graphstate)
         return (
@@ -99,33 +89,36 @@ class Main extends Component {
                 <div>
                     <Chart
                         width={'100%'}
-                        height={'500px'}
+                        height={'420px'}
                         chartType="LineChart"
                         data={this.state.graphstate}
                         options={options}
                     />
                 </div>
-                <div>
+                <div div id="firstDivistion" class="division">
                     <form onSubmit={this.onSubmit}>
                         <Form.Group size="lg" controlId="email">
                             <label>
-                                Angle :
+                                <p>Angle : </p>
                             </label>
                             <Form.Control autoFocus type="string" value={this.state.angle}
                                 onChange={this.handleAngle} />
                         </Form.Group>
-                        <Button block size="lg" type="submit" value="send" >
+                        <br/>
+                        <Button block size="lg" type="submit" value="send" id="btn_1">
                             Send
                         </Button>
                     </form>
                 </div>
-                <iframe
-                    src="https://player.twitch.tv/?channel=esw_project&parent=esw-team4.herokuapp.com"
-                    height="720"
-                    width="1280"
-                    allowfullscreen="true"
-                >
-                </iframe>
+                <div id="secondDivistion" class="division">
+                    <iframe
+                        src="https://player.twitch.tv/?channel=esw_project&parent=esw-team4.herokuapp.com"
+                        height="100%"
+                        width="100%"
+                        allowfullscreen="true"
+                    >
+                    </iframe>
+                </div>
             </div>
 
         );

@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 5000;
 
 const logger = require("./logger");
 const testRouter = require("./routes/test");
+const om2mRouter = require("./routes/om2m")
 
 const app = express();
 
@@ -15,7 +16,8 @@ app.use(express.json());
 app.use(logger);
 
 // adding routes
-app.use("/api", testRouter);
+app.use("/testapi", testRouter);
+app.use("/api", om2mRouter);
 
 
 // ... other app.use middleware 

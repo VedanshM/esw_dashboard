@@ -37,39 +37,35 @@ router.get("/getData", (req, res) => {
         let arr = [];
         // let arr2 = [];
 
-        let cur_theta = 0;
-        let tmp = cin_array[cin_array.length - 1]['con'].split(',')
-        console.log(tmp);
-        cur_theta = tmp[0].split(':')[2]
+        let last_label = cin_array[cin_array.length - 1]['con'].split(',')[0].split(':')
+        let cur_target_id = last_label[0]
+        let cur_target = last_label[1]
 
         cin_array.reverse()
 
         for (let i in cin_array) {
             let element = cin_array[i];
             let con_data = element["con"];
-            let point = con_data.split(',');
+            let point = con_data.split(',')
+            let target_id = point[0].split(':')[0]
+
+            if (target_id != cur_target_id)
+                break
+
             let tmp_arr = []
-            let flag = false
             for (let x in point) {
-                if (point[x]!="") {
+                if (point[x] != "" && x > 0) {
                     let e = point[x].split(':');
-                    if (e[2] != cur_theta) {
-                        flag = true
-                        break
-                    }
+                    e.push(cur_target);
                     tmp_arr.push(e);
                 }
             }
-            console.log('hi')
-            if (flag)
-                break
             tmp_arr.reverse()
             arr = arr.concat(tmp_arr)
         }
         arr.reverse()
         arr = arr.map(el => el.map(Number))
-        // elements in arr: time gap, current angle, 
-        //                  target angle
+        // elements in arr: time gap, current angle, target angle
         arr.sort((a, b) => a[0] - b[0]);
         res.json(arr);
     });

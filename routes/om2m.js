@@ -34,20 +34,25 @@ router.get("/getData", (req, res) => {
         let cin_array = content["m2m:cnt"]["m2m:cin"];
         // let string = "";
         let arr = [];
+        // let arr2 = [];
         for (let i in cin_array) {
-            element = cin_array[i]
+            var element = cin_array[i];
             let con_data = element["con"];
             let point = con_data.split(',');
             for (let x in point) {
-                let e = x.split(':')
-                e.push(element["ct"]);
-                arr.push(e)
+                if (point[x]!="") {
+                    let e = point[x].split(':');
+                    // arr2.push(point[x]);
+                    e.push(element["ct"]);
+                    arr.push(e);
+                }
             }
         }
 
         // elements in arr: time gap, current angle, 
         //                  target angle, actual time
-        arr.sort((a, b) => a[3] > b[3]);
+        // arr.sort((a, b) => a[3] > b[3]);
+        // res.json(arr2);
         let cur_theta = arr[arr.length - 1][2];
         arr = arr.filter(function (e) {
             return e[2] == cur_theta;

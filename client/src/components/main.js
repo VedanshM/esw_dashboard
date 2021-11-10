@@ -63,7 +63,7 @@ class Main extends Component {
                     // console.log(data)
                     this.setState({ graphstate: data })
                 })
-        }, 5000);
+        }, 1000);
     }
 
     componentWillUnmount() {

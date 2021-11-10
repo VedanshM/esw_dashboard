@@ -32,34 +32,45 @@ router.get("/getData", (req, res) => {
 
         let content = JSON.parse(body);
         let cin_array = content["m2m:cnt"]["m2m:cin"];
+        console.log(cin_array)
         // let string = "";
         let arr = [];
         // let arr2 = [];
+
+        let cur_theta = 0;
+        let tmp = cin_array[cin_array.length - 1]['con'].split(',')
+        console.log(tmp);
+        cur_theta = tmp[0].split(':')[2]
+
+        cin_array.reverse()
+
         for (let i in cin_array) {
-            var element = cin_array[i];
+            let element = cin_array[i];
             let con_data = element["con"];
             let point = con_data.split(',');
+            let tmp_arr = []
+            let flag = false
             for (let x in point) {
                 if (point[x]!="") {
                     let e = point[x].split(':');
-                    // arr2.push(point[x]);
-                    e.push(element["ct"]);
-                    arr.push(e);
+                    if (e[2] != cur_theta) {
+                        flag = true
+                        break
+                    }
+                    tmp_arr.push(e);
                 }
             }
+            console.log('hi')
+            if (flag)
+                break
+            tmp_arr.reverse()
+            arr = arr.concat(tmp_arr)
         }
-
+        arr.reverse()
+        arr = arr.map(el => el.map(Number))
         // elements in arr: time gap, current angle, 
-        //                  target angle, actual time
-        // arr.sort((a, b) => a[3] > b[3]);
-        // res.json(arr2);
-        let cur_theta = arr[arr.length - 1][2];
-        arr = arr.filter(function (e) {
-            return e[2] == cur_theta;
-        });
-        arr = arr.map(function (val) {
-            return val.slice(0, -1);
-        });
+        //                  target angle
+        arr.sort((a, b) => a[0] - b[0]);
         res.json(arr);
     });
 

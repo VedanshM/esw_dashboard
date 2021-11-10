@@ -55,6 +55,8 @@ class Main extends Component {
             axios.get('/api/getData')
                 .then(response => {
                     data = response.data
+                    console.log(data)
+                    // data = data.slice(Math.max(data.length - 115, 1))
                     // data = [[1, 3, 2], [2, 3, 3]]
                     data = data.map(el => el.map(Number))
                     data.unshift(['time', 'Current Angle', 'Target angle'])

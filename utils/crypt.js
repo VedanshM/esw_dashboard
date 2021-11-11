@@ -36,4 +36,27 @@ function decrypt(cipherText, key, outputEncoding = "utf8") {
     return deciphered
 }
 
-module.exports = { encrypt, decrypt }
+function gen_sha256(msg) {
+    hash = crypto.createHash('sha256');
+    data = hash.update(msg, 'utf8')
+    gen_hash = data.digest('hex');
+    return gen_hash
+}
+
+function check_and_decrypt(msg, key) {
+    const tmp = msg.split('|')
+    sha = tmp[0]
+    msg = tmp[1]
+    if (sha != gen_sha256(msg))
+        return null
+
+    return decrypt(msg, key)
+}
+
+function hash_and_encrypt(msg, key) {
+    const cipher = encrypt(msg, key)
+    const sha = gen_sha256(cipher)
+    return sha + '|' + cipher
+}
+
+module.exports = { encrypt, decrypt, hash_and_encrypt, check_and_decrypt }

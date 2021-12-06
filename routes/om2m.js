@@ -82,11 +82,12 @@ router.get("/getData", (req, res) => {
 
 // POST request for queue data
 router.post("/sendData", (req, res) => {
+    const queue_data = req.body.angle.tostring() + ":" + req.body.k_p.tostring() + ":"  + req.body.k_i.tostring() + ":" + req.body.k_d.tostring();
     const req_opt = {
         ...queueGet_opt,
         body: JSON.stringify({
             "m2m:cin": {
-                con: hash_and_encrypt(req.body.angle, process.env.AES_KEY)
+                con: hash_and_encrypt(queue_data, process.env.AES_KEY)
             }
         })
     }

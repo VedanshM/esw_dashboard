@@ -34,11 +34,11 @@ router.get("/getData", (req, res) => {
 
         let content = JSON.parse(body);
         let cin_array = content["m2m:cnt"]["m2m:cin"];
-        console.log(cin_array)
+        // console.log(cin_array)
         // let string = "";
         let arr = [];
         // let arr2 = [];
-        console.log(cin_array[cin_array.length - 1]['con'])
+        // console.log(cin_array[cin_array.length - 1]['con'])
 
         let last_label = check_and_decrypt(cin_array[cin_array.length - 1]['con'], process.env.AES_KEY).split(',')[0].split(':')
         if (last_label == null) {
@@ -82,7 +82,7 @@ router.get("/getData", (req, res) => {
 
 // POST request for queue data
 router.post("/sendData", (req, res) => {
-    const queue_data = req.body.angle.tostring() + ":" + req.body.k_p.tostring() + ":"  + req.body.k_i.tostring() + ":" + req.body.k_d.tostring();
+    const queue_data = req.body.angle.toString() + ":" + req.body.k_p.toString() + ":"  + req.body.k_i.toString() + ":" + req.body.k_d.toString();
     const req_opt = {
         ...queueGet_opt,
         body: JSON.stringify({

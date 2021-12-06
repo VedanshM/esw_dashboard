@@ -1,15 +1,35 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { Component } from 'react';
+import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
-import "./App.css";
-import Test from "./components/test";
-import Main from "./components/main";
+import UserProvider from "./contexts/User/UserProvider";
+import LoginPage from './pages/LoginPage';
+import Dashboard from './pages/Dashboard';
+import NotFoundPage from './pages/NotFoundPage';
+import RegisterPage from './pages/RegisterPage';
+import About from './pages/About'
 
-function App() {
-    return (
-        <Router>
-            <Route path="/" exact component={Main} />
-        </Router>
-    );
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {}
+    }
+    render() {
+        return (
+            <div className="app">
+                <Router>
+                    <UserProvider>
+                        <Switch>
+                            <Route exact path="/" render={() => <About />}></Route>
+                            <Route exact path="/Login" render={() => <LoginPage />}></Route>
+                            <Route exact path="/register" render={() => <RegisterPage />}></Route>
+                            <Route exact path="/dashboard" render={() => <Dashboard />}></Route>
+                            <Route path="*" render={() => <NotFoundPage />}></Route>
+                        </Switch>
+                    </UserProvider>
+                </Router>
+            </div>
+        );
+    }
 }
 
 export default App;

@@ -1,0 +1,25 @@
+.about_main_div {
+  background: dodgerblue linear-gradient(45deg, deeppink, aqua, dodgerblue) fixed;
+  color: white;
+  /* height: 100%;
+  width: 100%; */
+  font: normal 40px/1.6 system-ui, sans-serif;
+  text-shadow: 0 1px 1px hsl(0 0% 0% / 20%);
+  margin: 1rem;
+}
+
+.heading_1 {
+  text-align: center;
+  color: white;
+}
+
+.team_name {
+  text-align: right;
+  
+}
+
+.table_name {
+  margin-left: auto;
+  margin-right: auto;
+  align-content: center;
+}

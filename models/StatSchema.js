@@ -3,16 +3,16 @@ const Schema = mongoose.Schema;
 
 //create schema
 const StatisticsSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
     count: {
         type: Number,
         required: true,
     },
     average: {
         type: Number,
-        required: true
-    },
-    updated_at: {
-        type: Date,
         required: true
     }
 });

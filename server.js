@@ -13,6 +13,7 @@ const usersRouter = require('./routes/users');
 const logger = require("./logger");
 const testRouter = require("./routes/test");
 const om2mRouter = require("./routes/om2m")
+const statRouter = require("./routes/statistics");
 
 mongoose.connect(process.env.MONGO_URL,
 	{
@@ -43,6 +44,7 @@ app.use(cookieParser());
 app.use("/testapi", testRouter);
 app.use("/api", om2mRouter);
 app.use("/user", usersRouter);
+app.use("/stat", statRouter);
 
 
 // ... other app.use middleware 

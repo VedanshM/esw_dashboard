@@ -27,28 +27,25 @@ const queueGet_opt = {
     }
 };
 
-function update_stats() {
-    let newStat = new Stats();
-    newStat.count = req.body.count
-    newState.average = req.body.average
-    newState.updated_at = new Date();
+function update_stats(time_cutoff) {
 
-    newState.save(function (err, saved) {
-        try {
-            if (err) throw err.errmsg;
+    Stats.findOne({
+		name: "stats"
+	}, (error, stat) => {
+		if (error) 
+            console.log(error, "Unable to get Stats data due to error.");
 
-            res.status(200).json({
-                success: true,
-                message: "Successfully registered",
-            })
-        }
-        catch (e) {
-            res.status(500).json({
-                success: false,
-                message: "Something has gone wrong"
-            })
-        }
-    })
+		if (stat) {
+            stat.average = (stat.average * stat.count + time_cutoff) / (stat.count + 1);
+			stat.count += 1;
+            stat.save();
+
+		} else {
+			console.log("Stat not found");
+		}
+
+
+	});
 }
 
 // GET request for sensor data
@@ -102,9 +99,18 @@ router.get("/getData", (req, res) => {
         arr = arr.map(el => el.map(Number))
         // elements in arr: time gap, current angle, target angle
         arr.sort((a, b) => a[0] - b[0]);
-        if (arr.at(-1)[0] == 1e7) {
+        if (arr[arr.length - 1][0] == 1e7) {
             arr.pop()
-            update_stats()
+            console.log("Update Stats")
+            let time_cutoff = arr[arr.length - 1][0];
+            for(let i = 0; i < arr.length; ++i){
+                if(Math.abs(arr[i][2] - arr[i][1]) <= 4)
+                {
+                    time_cutoff = arr[i][0];
+                    break;
+                }
+            }
+            update_stats(time_cutoff)
         }
         res.json(arr);
     });

@@ -32,7 +32,7 @@ mongoose.connect(process.env.MONGO_URL,
 
 const app = express();
 
-app.use(cors({credentials: true}));
+app.use(cors({credentials: true, origin: true}));
 app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

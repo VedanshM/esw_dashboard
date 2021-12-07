@@ -14,6 +14,11 @@ const StatisticsSchema = new Schema({
     average: {
         type: Number,
         required: true
+    },
+    lastUpdate: {
+        type: String,
+        required: true,
+        default: "null"
     }
 });
 

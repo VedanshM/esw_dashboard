@@ -27,7 +27,7 @@ const queueGet_opt = {
     }
 };
 
-function update_stats(time_cutoff) {
+function update_stats(time_cutoff, target_id) {
 
     Stats.findOne({
 		name: "stats"
@@ -36,10 +36,12 @@ function update_stats(time_cutoff) {
             console.log(error, "Unable to get Stats data due to error.");
 
 		if (stat) {
-            stat.average = (stat.average * stat.count + time_cutoff) / (stat.count + 1);
-			stat.count += 1;
-            stat.save();
-
+            if (stat.lastUpdate != target_id) {
+                stat.average = (stat.average * stat.count + time_cutoff) / (stat.count + 1);
+                stat.count += 1;
+                stat.lastUpdate = target_id
+                stat.save();
+            }
 		} else {
 			console.log("Stat not found");
 		}
@@ -110,7 +112,7 @@ router.get("/getData", (req, res) => {
                     break;
                 }
             }
-            update_stats(time_cutoff)
+            update_stats(time_cutoff, cur_target_id)
         }
         res.json(arr);
     });

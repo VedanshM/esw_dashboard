@@ -105,12 +105,10 @@ router.get("/getData", (req, res) => {
             arr.pop()
             console.log("Update Stats")
             let time_cutoff = arr[arr.length - 1][0];
-            for(let i = 0; i < arr.length; ++i){
-                if(Math.abs(arr[i][2] - arr[i][1]) <= 4)
-                {
-                    time_cutoff = arr[i][0];
+            for (let i = arr.length - 1; i >= 0; --i) {
+                if (Math.abs(arr[i][2] - arr[i][1]) > 4)
                     break;
-                }
+                time_cutoff = arr[i][0];
             }
             update_stats(time_cutoff, cur_target_id)
         }

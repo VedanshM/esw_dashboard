@@ -50,7 +50,7 @@ class RegisterPage extends Component {
         try {
             const response = await Axios({
                 method: 'POST',
-                url: `http://localhost:5000/user/register/`,
+                url: `/user/register/`,
                 data: {
                     name: this.state.name,
                     password: this.state.password,

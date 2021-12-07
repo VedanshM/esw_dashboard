@@ -18,7 +18,7 @@ export default function ProtectedRoute(ComponentToProtect) {
         componentDidMount() {
             axios({
                 method: "GET",
-                url: 'http://localhost:5000/user/verify',
+                url: '/user/verify',
                 headers: {
                     "X-ACCESS-TOKEN": cookies.get('token')
                 }    

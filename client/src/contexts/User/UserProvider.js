@@ -20,7 +20,7 @@ class UserProvider extends Component {
         if (cookies.get('token') !== null) {
             axios({
                 method: 'GET',
-                url: "http://localhost:5000/user/whoami",
+                url: "/user/whoami",
                 headers: {
                     'X-ACCESS-TOKEN': cookies.get('token')
                 },
@@ -52,7 +52,7 @@ class UserProvider extends Component {
                     handleLogin: data => {
                         axios({
                             method: 'POST',
-                            url: "http://localhost:5000/user/login",
+                            url: "/user/login",
                             data: data,
                             headers: {
                                 'Content-Type': 'application/json'

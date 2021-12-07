@@ -1,3 +1,5 @@
+const Stats = require("../models/StatSchema");
+
 const express = require("express");
 const router = express.Router();
 const request = require("request");
@@ -14,6 +16,7 @@ const sensor_getAll_opt = {
     }
 };
 
+
 const queueGet_opt = {
     method: 'POST',
     url: process.env.OM2M_BASE + '/queue_data',
@@ -23,6 +26,30 @@ const queueGet_opt = {
         'x-m2m-origin': process.env.OM2M_SECRET
     }
 };
+
+function update_stats() {
+    let newStat = new Stats();
+    newStat.count = req.body.count
+    newState.average = req.body.average
+    newState.updated_at = new Date();
+
+    newState.save(function (err, saved) {
+        try {
+            if (err) throw err.errmsg;
+
+            res.status(200).json({
+                success: true,
+                message: "Successfully registered",
+            })
+        }
+        catch (e) {
+            res.status(500).json({
+                success: false,
+                message: "Something has gone wrong"
+            })
+        }
+    })
+}
 
 // GET request for sensor data
 router.get("/getData", (req, res) => {
@@ -75,6 +102,10 @@ router.get("/getData", (req, res) => {
         arr = arr.map(el => el.map(Number))
         // elements in arr: time gap, current angle, target angle
         arr.sort((a, b) => a[0] - b[0]);
+        if (arr.at(-1)[0] == 1e7) {
+            arr.pop()
+            update_stats()
+        }
         res.json(arr);
     });
 
@@ -82,7 +113,7 @@ router.get("/getData", (req, res) => {
 
 // POST request for queue data
 router.post("/sendData", (req, res) => {
-    const queue_data = req.body.angle.toString() + ":" + req.body.k_p.toString() + ":"  + req.body.k_i.toString() + ":" + req.body.k_d.toString();
+    const queue_data = req.body.angle.toString() + ":" + req.body.k_p.toString() + ":" + req.body.k_i.toString() + ":" + req.body.k_d.toString();
     const req_opt = {
         ...queueGet_opt,
         body: JSON.stringify({

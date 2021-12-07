@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 //create schema
-const FileSchema = new Schema({
+const StatisticsSchema = new Schema({
     count: {
         type: Number,
         required: true,
@@ -17,4 +17,4 @@ const FileSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model("Files", FileSchema);
+module.exports = mongoose.model("Stats", StatisticsSchema);

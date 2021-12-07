@@ -51,7 +51,7 @@ class LoginPage extends Component {
                 {context => (
                     <div>
                         <div id="navbar">
-                            <a>Home</a>
+                            <a href="/" >Home</a>
                             {!context.name && <a className="active" href="/#/Login">LogIn</a>}
                             {!context.name && <a href="/#/register">Register</a>}
                             {context.name && <a href="javascript:window.location.reload(true)" onClick={() => context.handleLogout()}>Logout</a>}

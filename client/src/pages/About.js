@@ -1,9 +1,39 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import UserContext from "../contexts/User/UserContext";
 import styles from './about.module.css'
 
 class About extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            "stats": {
+                "average": 0,
+                "count": 0
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.interval = setInterval(() => {
+            axios.get('/stat/getStats')
+                .then(response => {
+                    // alert(response)
+                    let data = response.data
+                    this.setState({
+                        "stats": {
+                            "average": data.average,
+                            "count": data.count
+                        }
+                    })
+                })
+        }, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
 
     render() {
         return (<>
@@ -21,16 +51,49 @@ class About extends Component {
                         </div>
                         <div className={styles.about_main_div}>
                             <div>
-                                <h1 className={styles.heading_1}>Esw Project</h1>
+                                <h1 className={styles.heading_1}>ESW Project</h1>
                             </div>
                             <div>
                                 <h5 className={styles.team_name}><p>( Team 4 )</p></h5>
                             </div>
                             <div>
-                                <h3 className={styles.team_name}><p>[ PID control of the speed of a DC motor ]</p></h3>
+                                <h3 className={styles.team_name}><p> PID control of the angular position of a DC motor </p></h3>
                             </div>
                             <br />
                             <div>
+                                <h2 style={{ textAlign: "center" }}> Statistics</h2>
+                                <table className={styles.table_name}>
+                                    <tbody>
+                                        <tr className={styles.tr}>
+                                            <td className={styles.td} > No. of Runs </td>
+                                            <td className={styles.td} > {this.state.stats.count} </td>
+                                        </tr>
+                                        <tr className={styles.tr}>
+                                            <td className={styles.td} > Average Convergence Time</td>
+                                            <td className={styles.td} > {this.state.stats.average / 1000}s </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br />
+                            <div>
+                                <div style={{
+                                    "margin": 50,
+                                    "margin-left": 200,
+                                    "margin-right": 200,
+                                }}>
+
+                                    The main experiment is given an initial angular position and a final target position, we wish to reach the final position using PID logic.
+                                    <br />
+                                    One must register and login to access the dashboard where you can provide the target angle as well as the 3 PID constants and then observe the result.
+                                    <br />
+                                    The code for the project is present <a href="https://github.com/VedanshM/esw_dashboard">here</a>.
+                                </div>
+                            </div>
+                            <br />
+                            <div>
+                                <h3 style={{ textAlign: "center" }}> Contributors</h3>
                                 <table className={styles.table_name}>
                                     <tbody>
                                         <tr className={styles.tr}>

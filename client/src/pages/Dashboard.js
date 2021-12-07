@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom"; 
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from 'axios';
 import { Chart } from "react-google-charts";
+import { withRouter } from "react-router-dom";
 import './navbar.css'
 import styles from "./dashboard.module.css"
 
 import UserContext from "../contexts/User/UserContext";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute"
 
 const options = {
     hAxis: {
@@ -71,45 +72,18 @@ class Main extends Component {
 
     handleAngle(event) {
         this.setState({ angle: event.target.value });
-
-        // if (event.target.value >= 0 && event.target.value <=360) {
-        //     this.setState({ angle: event.target.value });
-        // } else {
-        //     this.setState({ angle: 0 })
-        // }
     }
 
     handlekp(event) {
         this.setState({ k_p: event.target.value });
-
-        // console.log("K_p : " + String(event.target.value))
-        // if (event.target.value > 0) {
-        //     this.setState({ k_p: event.target.value });
-        // } else {
-        //     this.setState({ k_p: 10 })
-        // }
     }
 
     handleki(event) {
         this.setState({ k_i: event.target.value });
-
-        // console.log("K_i : " + String(event.target.value))
-        // console.log(typeof (event.target.value))
-        // if (event.target.value > 0) {
-        //     this.setState({ k_i: event.target.value });
-        // } else {
-        //     this.setState({ k_i: 5 })
-        // }
     }
 
     handlekd(event) {
         this.setState({ k_d: event.target.value });
-        // console.log("K_d : " + String(event.target.value))
-        // if (event.target.value > 0) {
-        //     this.setState({ k_d: event.target.value });
-        // } else {
-        //     this.setState({ k_d: 0.025 })
-        // }
     }
 
     onSubmit(event) {
@@ -166,8 +140,6 @@ class Main extends Component {
     
     }
     render() {
-        // console.log(UserContext)
-        // console.log(this.state.graphstate)
         return (<>
             <UserContext.Consumer>
                 {context => (
@@ -257,4 +229,7 @@ class Main extends Component {
     }
 }
 
-export default Main;
+// export default Main;
+
+// Uncomment for protecting dashboard from access without login
+export default withRouter(ProtectedRoute(Main));

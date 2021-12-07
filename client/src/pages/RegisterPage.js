@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter} from "react-router-dom"; 
+import { withRouter } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -25,13 +25,13 @@ class RegisterPage extends Component {
     }
 
     handleChange(e) {
-		this.setState({
-			[e.target.name] : e.target.value
-		});
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     }
 
     componentDidMount() {
-        if(cookies.get('token')) {
+        if (cookies.get('token')) {
             this.setState({
                 redirect: true
             });
@@ -61,7 +61,7 @@ class RegisterPage extends Component {
                 },
                 withCredentials: true
             });
-            if(response.status === 200) {
+            if (response.status === 200) {
                 this.props.history.push('/');
             } else {
                 alert('Something has gone wrong. Please contact admin or refresh and try again.')
@@ -73,12 +73,18 @@ class RegisterPage extends Component {
     }
 
     setValidated = (value) => {
-        this.setState({validated: value});
+        this.setState({ validated: value });
     }
 
     render() {
 
         return (
+            <div>
+                <div id="navbar">
+                    <a href="/">Home</a>
+                    <a className="active" >Register</a>
+                    <a href="https://github.com/VedanshM/esw_dashboard" target="_blank" rel="noopener noreferrer">Github</a>
+                </div>
                 <Container>
                     <Row className="full-height align-items-center justify-content-center">
                         <Col xs={12} sm={8} md={6} lg={4}>
@@ -87,41 +93,42 @@ class RegisterPage extends Component {
                                 <Card.Body>
                                     <Form ref="registerForm" validated={this.state.validated}>
                                         <Form.Label>Name</Form.Label>
-                                        <Form.Control 
-                                            type="text" 
-                                            name="name" 
-                                            placeholder="Enter name" 
-                                            value={this.state.name} 
+                                        <Form.Control
+                                            type="text"
+                                            name="name"
+                                            placeholder="Enter name"
+                                            value={this.state.name}
                                             onChange={(e) => this.handleChange(e)}
                                             required
-                                            ></Form.Control>
+                                        ></Form.Control>
                                         <Form.Label>Username</Form.Label>
-                                        <Form.Control 
-                                            type="text" 
-                                            name="username" 
-                                            placeholder="Enter username" 
-                                            value={this.state.username} 
+                                        <Form.Control
+                                            type="text"
+                                            name="username"
+                                            placeholder="Enter username"
+                                            value={this.state.username}
                                             onChange={(e) => this.handleChange(e)}
                                             required
-                                            ></Form.Control>
+                                        ></Form.Control>
                                         <Form.Label>Password</Form.Label>
-                                        <Form.Control 
-                                            type="password" 
-                                            name="password" 
-                                            placeholder="Enter password" 
-                                            value={this.state.password} 
+                                        <Form.Control
+                                            type="password"
+                                            name="password"
+                                            placeholder="Enter password"
+                                            value={this.state.password}
                                             onChange={(e) => this.handleChange(e)}
                                             required
-                                            ></Form.Control>
+                                        ></Form.Control>
                                     </Form>
                                 </Card.Body>
                                 <Card.Footer>
-                                    <Button block variant="primary" onClick={()=>{this.handleSubmit(this.refs.registerForm)}}>Register</Button>
+                                    <Button block variant="primary" onClick={() => { this.handleSubmit(this.refs.registerForm) }}>Register</Button>
                                 </Card.Footer>
                             </Card>
                         </Col>
                     </Row>
                 </Container>
+            </div>
         );
     }
 }
